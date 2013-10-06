@@ -1,5 +1,5 @@
 Changelog for LogLogins
 
-LogLogins 1.0.0
+LogLogins 1.0.0-pl
 ---------------------------------
 Initial Version
