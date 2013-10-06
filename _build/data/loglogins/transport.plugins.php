@@ -28,7 +28,13 @@ $plugins = array();
 $plugins[1] = $modx->newObject('modPlugin');
 $plugins[1]->fromArray(array (
   'id' => 1,
+  'property_preprocess' => false,
   'name' => 'LogLogins',
+  'description' => '',
+  'properties' => 
+  array (
+  ),
+  'disabled' => false,
 ), '', true, true);
 $plugins[1]->setContent(file_get_contents($sources['source_core'] . '/elements/plugins/loglogins.plugin.php'));
 

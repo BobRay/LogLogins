@@ -1,10 +1,26 @@
 <?php
 /** @var $modx modX */
+$pluginKey = 'loglogins_contexts';
 
-$allContexts = array();
+/* Set action based on event name */
+if (strpos($modx->event->name, 'Login') !== false) {
+    $act = $modx->lexicon('login');
+} else {
+    $modx->lexicon->load('core:default');
+    $act = $modx->lexicon('logout');
+}
+
+/* Need this because $modx->user is not available in some cases
+   and MODX uses it for the actor in logManagerActions()*/
 if (isset($user)) {
     $modx->user =& $user;
 }
+
+$allContexts = array();
+
+
+/* These are from the vars passed to the event on login.
+   Converted here to a comma-separated string */
 $ac = isset($attributes['addContexts'])
     ? $attributes['addContexts']
     : array();
@@ -24,46 +40,48 @@ if ( (empty($ac))) {
 
 $msg = !empty($allContexts)? implode(',', $allContexts) : '';
 
-$modx->log(MODX::LOG_LEVEL_ERROR, 'All: ' . print_r($allContexts, true));
+/* $msg is always 'mgr' for manager logins and logouts */
+if (strpos($modx->event->name, 'Manager') !== false) {
+    $msg = 'mgr';
+}
 
-$setting = $modx->getObject('modUserSetting',
-    array(
-         'user' => $user->get('id'),
-         'key' => 'LogLogins.contexts',
-    )
-);
-
-
-$act = 'unknown';
 switch ($modx->event->name) {
-
+    /* Save contexts in user setting */
     case 'OnWebLogin':
-    case 'OnManagerLogin':
+        $setting = $modx->getObject('modUserSetting',
+            array(
+             'user' => $user->get('id'),
+             'key' => $pluginKey,
+            ));
 
         if (! $setting) {
+            /* Create User Setting if it doesn't exist */
             $setting = $modx->newObject('modUserSetting');
             $setting->set('user', $user->get('id'));
-            $setting->set('key', 'loglogins_contexts');
+            $setting->set('key', $pluginKey);
             $setting->set('namespace', 'loglogins');
         }
+        /* Set value to login contexts */
         if ($setting) {
             $setting->set('value', $msg);
             $setting->save();
         }
-        $act = $modx->lexicon('login');
-        $modx->logManagerAction($act, 'modContext', $msg);
         break;
 
     case 'OnWebLogout':
-    case 'OnManagerLogout':
+        /* Get contexts from user setting */
+        $setting = $modx->getObject('modUserSetting',
+            array(
+                 'user' => $user->get('id'),
+                 'key' => $pluginKey,
+            ));
+
         if ($setting) {
             $msg = $setting->get('value');
+        } else {
+            $msg = '';
         }
-        $modx->lexicon->load('core:default');
-        $modx->context = $modx->context->get('key');
-        $act = $modx->lexicon('logout');
-        $modx->logManagerAction($act, 'modContext', $msg);
         break;
 }
 
-
+$modx->logManagerAction($act, 'modContext', $msg);
