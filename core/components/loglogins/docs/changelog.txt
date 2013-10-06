@@ -1,0 +1,5 @@
+Changelog for LogLogins
+
+LogLogins 1.0.0
+---------------------------------
+Initial Version
