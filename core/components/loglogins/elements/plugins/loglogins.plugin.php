@@ -85,3 +85,5 @@ switch ($modx->event->name) {
 }
 
 $modx->logManagerAction($act, 'modContext', $msg);
+
+return '';
