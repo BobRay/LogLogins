@@ -2,7 +2,7 @@
 /**
  * plugins transport file for LogLogins extra
  *
- * Copyright 2013 by Bob Ray <http://bobsguides.com>
+ * Copyright 2013-2014 by Bob Ray <http://bobsguides.com>
  * Created on 10-05-2013
  *
  * @package loglogins
@@ -34,7 +34,7 @@ $plugins[1]->fromArray(array (
   'properties' => 
   array (
   ),
-  'disabled' => false,
+  'disabled' => true,
 ), '', true, true);
 $plugins[1]->setContent(file_get_contents($sources['source_core'] . '/elements/plugins/loglogins.plugin.php'));
 
