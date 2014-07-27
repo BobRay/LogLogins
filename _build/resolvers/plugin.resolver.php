@@ -2,7 +2,7 @@
 /**
 * Resolver to connect plugins to system events for LogLogins extra
 *
-* Copyright 2013 by Bob Ray <http://bobsguides.com>
+* Copyright 2013-2014 by Bob Ray <http://bobsguides.com>
 * Created on 10-05-2013
 *
  * LogLogins is free software; you can redistribute it and/or modify it under the
@@ -37,7 +37,7 @@ if (!function_exists('checkFields')) {
         $fields = explode(',', $required);
         foreach ($fields as $field) {
             if (!isset($objectFields[$field])) {
-                $modx->log(MODX::LOG_LEVEL_ERROR, '[Plugin Resolver] Missing field: ' . $field);
+                $modx->log(modX::LOG_LEVEL_ERROR, '[Plugin Resolver] Missing field: ' . $field);
                 return false;
             }
         }

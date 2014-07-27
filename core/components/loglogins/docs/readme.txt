@@ -3,7 +3,7 @@ LogLogins
 
 
 Author: Bob Ray <http://bobsguides.com>
-Copyright 2013
+Copyright 2013-2014
 
 Official Documentation: http://bobsguides.com/loglogins-tutorial.html
 
