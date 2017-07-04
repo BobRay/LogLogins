@@ -1,9 +1,13 @@
-LogLogins Extra for MODx Revolution
+LogLogins Extra for MODX Revolution
 =======================================
 
 
-**Author:** Bob Ray <http://bobsguides.com> [Bob's Guides](http://bobsguides.com)
+**Author:** Bob Ray [Bob's Guides](https://bobsguides.com)
 
-Documentation is available at [Bob's Guides](http://bobsguides.com/loglogins-tutorial.html)
+**Documentation:** [LogLogins Docs](https://bobsguides.com/loglogins-tutorial.html)
+
+**Bugs and requests:** [LogLogins Issues](https://github.com/BobRay/LogLogins/issues)
+
+**Questions about using LogLogins** [MODX Forums](https://forums.modx.com)
 
 LogLogins records user logins and logouts to the Manager Actions Log for both Manager and front-end logins. It will report the time, the username, and the context(s) involved.
