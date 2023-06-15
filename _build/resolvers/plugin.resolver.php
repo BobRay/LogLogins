@@ -2,7 +2,7 @@
 /**
 * Resolver to connect plugins to system events for LogLogins extra
 *
-* Copyright 2013-2017 Bob Ray <https://bobsguides.com>
+* Copyright 2013-2023 Bob Ray <https://bobsguides.com>
 * Created on 10-05-2013
 *
  * LogLogins is free software; you can redistribute it and/or modify it under the
@@ -31,9 +31,7 @@
 /* @var $newEvents array */
 
 if (!function_exists('checkFields')) {
-    function checkFields($required, $objectFields) {
-
-        global $modx;
+    function checkFields($modx, $required, $objectFields) {
         $fields = explode(',', $required);
         foreach ($fields as $field) {
             if (!isset($objectFields[$field])) {
@@ -49,30 +47,26 @@ if (!function_exists('checkFields')) {
 $newEvents = array (
             );
 
- /* @var modTransportPackage $transport */
+/** @var modTransportPackage $transport */
+if ($transport) {
+    $modx =& $transport->xpdo;
+} else {
+    $modx =& $object->xpdo;
+}
 
- if ($transport) {
-     $modx =& $transport->xpdo;
- } else {
-     $modx =& $object->xpdo;
- }
+$classPrefix = $modx->getVersionData()['version'] >= 3
+        ? 'MODX\Revolution\\'
+        : '';
 
- /* Make it run in either MODX 2 or MODX 3 */
- $prefix = $modx->getVersionData()['version'] >= 3
-   ? 'MODX\Revolution\\'
-   : '';
-
-
-$modx =& $object->xpdo;
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
     case xPDOTransport::ACTION_INSTALL:
     case xPDOTransport::ACTION_UPGRADE:
 
         foreach($newEvents as $k => $fields) {
 
-            $event = $modx->getObject($prefix . 'modEvent', array('name' => $fields['name']));
+            $event = $modx->getObject($classPrefix . 'modEvent', array('name' => $fields['name']));
             if (!$event) {
-                $event = $modx->newObject($prefix . 'modEvent');
+                $event = $modx->newObject($classPrefix . 'modEvent');
                 if ($event) {
                     $event->fromArray($fields, "", true, true);
                     $event->save();
@@ -81,55 +75,61 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         }
 
         $intersects = array (
-            0 =>  array (
-              'pluginid' => 'LogLogins',
-              'event' => 'OnManagerLogin',
-              'priority' => '0',
-              'propertyset' => '0',
-            ),
-            1 =>  array (
-              'pluginid' => 'LogLogins',
-              'event' => 'OnManagerLogout',
-              'priority' => '0',
-              'propertyset' => '0',
-            ),
-            2 =>  array (
-              'pluginid' => 'LogLogins',
-              'event' => 'OnWebLogin',
-              'priority' => '0',
-              'propertyset' => '0',
-            ),
-            3 =>  array (
-              'pluginid' => 'LogLogins',
-              'event' => 'OnWebLogout',
-              'priority' => '0',
-              'propertyset' => '0',
-            ),
-        );
+                0 =>  array (
+                  'pluginid' => 'LogLogins',
+                  'event' => 'OnManagerLogin',
+                  'priority' => '0',
+                  'propertyset' => '0',
+                ),
+                1 =>  array (
+                  'pluginid' => 'LogLogins',
+                  'event' => 'OnManagerLogout',
+                  'priority' => '0',
+                  'propertyset' => '0',
+                ),
+                2 =>  array (
+                  'pluginid' => 'LogLogins',
+                  'event' => 'OnWebLogin',
+                  'priority' => '0',
+                  'propertyset' => '0',
+                ),
+                3 =>  array (
+                  'pluginid' => 'LogLogins',
+                  'event' => 'OnWebLogout',
+                  'priority' => '0',
+                  'propertyset' => '0',
+                ),
+            );
 
         if (is_array($intersects)) {
             foreach ($intersects as $k => $fields) {
                 /* make sure we have all fields */
-                if (!checkFields('pluginid,event,priority,propertyset', $fields)) {
+                if (!checkFields($modx, 'pluginid,event,priority,propertyset', $fields)) {
                     continue;
                 }
-                $event = $modx->getObject($prefix . 'modEvent', array('name' => $fields['event']));
+                $event = $modx->getObject($classPrefix . 'modEvent', array('name' => $fields['event']));
 
-                $plugin = $modx->getObject($prefix . 'modPlugin', array('name' => $fields['pluginid']));
+                $plugin = $modx->getObject($classPrefix . 'modPlugin', array('name' => $fields['pluginid']));
                 $propertySetObj = null;
                 if (!empty($fields['propertyset'])) {
-                    $propertySetObj = $modx->getObject($prefix . 'modPropertySet',
+                    $propertySetObj = $modx->getObject($classPrefix . 'modPropertySet',
                         array('name' => $fields['propertyset']));
                 }
                 if (!$plugin || !$event) {
-                    $modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not find Plugin and/or Event ' .
-                        $fields['plugin'] . ' - ' . $fields['event']);
+                    if (!$plugin) {
+                        $modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not find Plugin  ' .
+                            $fields['pluginid']);
+                    }
+                    if (!$event) {
+                        $modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not find Event ' .
+                            $fields['event']);
+                    }
                     continue;
                 }
-                $pluginEvent = $modx->getObject($prefix . 'modPluginEvent', array('pluginid'=>$plugin->get('id'),'event' => $fields['event']) );
+                $pluginEvent = $modx->getObject($classPrefix . 'modPluginEvent', array('pluginid'=>$plugin->get('id'),'event' => $fields['event']) );
 
                 if (!$pluginEvent) {
-                    $pluginEvent = $modx->newObject($prefix . 'modPluginEvent');
+                    $pluginEvent = $modx->newObject($classPrefix . 'modPluginEvent');
                 }
                 if ($pluginEvent) {
                     $pluginEvent->set('event', $fields['event']);
@@ -152,13 +152,12 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 
     case xPDOTransport::ACTION_UNINSTALL:
         foreach($newEvents as $k => $fields) {
-            $event = $modx->getObject($prefix . 'modEvent', array('name' => $fields['name']));
+            $event = $modx->getObject($classPrefix . 'modEvent', array('name' => $fields['name']));
             if ($event) {
                 $event->remove();
             }
         }
         break;
 }
-
 
 return true;
