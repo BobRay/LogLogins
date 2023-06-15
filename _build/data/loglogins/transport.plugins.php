@@ -2,7 +2,7 @@
 /**
  * plugins transport file for LogLogins extra
  *
- * Copyright 2013-2017 Bob Ray <https://bobsguides.com>
+ * Copyright 2013-2023 Bob Ray <https://bobsguides.com>
  * Created on 10-05-2013
  *
  * @package loglogins
