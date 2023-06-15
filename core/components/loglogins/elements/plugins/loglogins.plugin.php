@@ -2,6 +2,12 @@
 /** @var $modx modX */
 $pluginKey = 'loglogins_contexts';
 
+ /* Make it run in either MODX 2 or MODX 3 */
+ $prefix = $modx->getVersionData()['version'] >= 3
+   ? 'MODX\Revolution\\'
+   : '';
+
+
 /* Set action based on event name */
 if (strpos($modx->event->name, 'Login') !== false) {
     $act = $modx->lexicon('login');
@@ -48,7 +54,7 @@ if (strpos($modx->event->name, 'Manager') !== false) {
 switch ($modx->event->name) {
     /* Save contexts in user setting */
     case 'OnWebLogin':
-        $setting = $modx->getObject('modUserSetting',
+        $setting = $modx->getObject($prefix . 'modUserSetting',
             array(
              'user' => $user->get('id'),
              'key' => $pluginKey,
@@ -56,7 +62,7 @@ switch ($modx->event->name) {
 
         if (! $setting) {
             /* Create User Setting if it doesn't exist */
-            $setting = $modx->newObject('modUserSetting');
+            $setting = $modx->newObject($prefix . 'modUserSetting');
             $setting->set('user', $user->get('id'));
             $setting->set('key', $pluginKey);
             $setting->set('namespace', 'loglogins');
@@ -70,7 +76,7 @@ switch ($modx->event->name) {
 
     case 'OnWebLogout':
         /* Get contexts from user setting */
-        $setting = $modx->getObject('modUserSetting',
+        $setting = $modx->getObject($prefix . 'modUserSetting',
             array(
                  'user' => $user->get('id'),
                  'key' => $pluginKey,
