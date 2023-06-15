@@ -1,9 +1,13 @@
 Changelog for LogLogins
 
+LogLogins 1.1.3-pl
+---------------------------------
+ - Updates for MODX 3
+
 LogLogins 1.1.0-pl
 ---------------------------------
-Update for MODX 2.3
+ - Update for MODX 2.3
 
 LogLogins 1.0.0-pl
 ---------------------------------
-Initial Version
+ - Initial Version
