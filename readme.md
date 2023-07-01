@@ -12,4 +12,4 @@ LogLogins Extra for MODX Revolution
 
 LogLogins is fully updated for MODX 3
 
-LogLogins records user logins and logouts to the Manager Actions Log for both Manager and front-end logins. It will report the time, the username, and the context(s) involved.
+LogLogins records front-end user logins to the MODX Manager Log. It will report the time, the username, and the context(s) involved.

@@ -1,7 +1,10 @@
 <h3>Overview</h3>
-<p>This extra logs user logins and logouts to the Manager Actions Log. It does so for both Manager and front-end logins and logouts.</p>
 
-<p>LogLogins if fully updated for MODX 3</p>
+<p>LogLogins records user logins to the front end of the site to the Manager Actions Log. MODX now logs logins to the Manager, so LogLogins no longer does so. As of version 1.3.1, LogLogins no longer records logouts because, 1) many users (including me) often don't explicitly log out, and 2) I couldn't think of any reason users would want an incomplete record of who logged out (or a complete record, for that matter).</p>
+
+<p>The log will show who is logging in to the front end, and how often they are doing so. It may also help you spot people who are logging in, but aren't legitimate users.</p>
+
+<p>LogLogins is now fully updated for MODX 3</p>
 
 <h3>Installing LogLogins</h3>
 
@@ -14,21 +17,17 @@ Go to Extras -> Installer on the main menu in the MODX Manager and click on the 
 
 <h3>Usage</h3>
 
-<p>Once LogLogins is installed it will automatically record user logins and logouts to the Manager Actions Log for both Manager and front-end logins. It will report the time, the username, and the context(s) involved.</p>
+<p>Once LogLogins is installed it will automatically record user logins  to the front end of the site. It will report the time, the username, and the context(s) involved.</p>
 
-<p>To see the report, go to Reports | Manager Actions on the MODX Manager Top Menu. The Manager Actions log can be filtered by user, action, or time, but as far as I can tell, there's no way to show just logins and logouts at the same time.</p>
+
+<p>To see the report, go to Reports -> Manager Actions on the MODX Manager Main Menu. The Manager Actions log can be filtered by user, action, or time, but as far as I can tell, there's no way to show just logins and logouts at the same time.</p>
 
 <h3>Notes</h3>
 
-<p>If any users are logged in (including you) when you install LogLogins, their first logout will not report the context(s) correctly.</p>
-
 <p>LogLogins records the context(s) in a User Setting (<code>loglogins_contexts</code>) for each user. This is done automatically and there's never any need to edit the User Setting. Doing so will have no effect other than to change the context(s) reported on logout, and then only if the user is logged in when the change is made.</p>
 
-<p>LogLogins will only log the event if the the correct System Event is invoked when the user logs in or out. The Login snippet and the Manager login page both do this correctly, but if the user is logged in or out in code that doesn't invoke the appropriate event or doesn't invoke it properly, the login or logout may not be recorded.</p>
+<p>LogLogins will only log the event if the correct System Event is invoked when the user logs in. The Login snippet and the Manager login page both do this correctly, but if the user is logged in or out in code that doesn't invoke the appropriate event or doesn't invoke it properly, the login or logout may not be recorded.</p>
 
 <p>The context(s) reported in the log for front-end logins and logouts are the values in the Login snippet's <code>&contexts</code> property. If they are misspelled or are not real contexts, they will still be reported, even though the user isn't really logged in to them. I tried testing them to see if the user is really logged in to each context, but unfortunately <code>$user->hasSessionContext()</code> always returns <code>true</code> as long as they're listed in the Login snippet's <code>&contexts</code> property.</p>
-
-<p>If a user closes the browser window without formally logging out, the logout will not be logged, even though that action usually logs the user out.</p>
-
 
 <p>&nbsp;</p>
