@@ -8,6 +8,8 @@ $pluginKey = 'loglogins_contexts';
    : '';
 
 
+
+
 /* Set action based on event name */
 if (strpos($modx->event->name, 'Login') !== false) {
     $act = $modx->lexicon('login');
@@ -46,11 +48,8 @@ if ( (empty($ac))) {
 
 $msg = !empty($allContexts)? implode(',', $allContexts) : '';
 
-/* $msg is always 'mgr' for manager logins and logouts */
-if (strpos($modx->event->name, 'Manager') !== false) {
-    $msg = 'mgr';
-}
-
+/* Leave the switch statement in case
+   other events are still attached */
 switch ($modx->event->name) {
     /* Save contexts in user setting */
     case 'OnWebLogin':
@@ -73,23 +72,8 @@ switch ($modx->event->name) {
             $setting->save();
         }
         break;
-
-    case 'OnWebLogout':
-        /* Get contexts from user setting */
-        $setting = $modx->getObject($prefix . 'modUserSetting',
-            array(
-                 'user' => $user->get('id'),
-                 'key' => $pluginKey,
-            ));
-
-        if ($setting) {
-            $msg = $setting->get('value');
-        } else {
-            $msg = '';
-        }
-        break;
 }
 
-$modx->logManagerAction($act, 'modContext', $msg);
+$modx->logManagerAction('Login', $prefix . 'modContext', $msg);
 
 return '';

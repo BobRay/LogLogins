@@ -1,3 +1,6 @@
+
+<span style="color:red">This Package is deprecated for current versions of MODX, since MODX itself now performs the logging provided by the package</span>
+
 Author: Bob Ray <https://bobsguides.com>
 Copyright 2013-2023 Bob Ray
 

@@ -1,6 +1,7 @@
 LogLogins Extra for MODX Revolution
 =======================================
 
+ ### ***<span style="color:red">This Package is deprecated for current versions of MODX, since MODX itself now performs the logging provided by the package</span>***
 
 **Author:** Bob Ray [Bob's Guides](https://bobsguides.com)
 
@@ -10,6 +11,6 @@ LogLogins Extra for MODX Revolution
 
 **Questions about using LogLogins** [MODX Forums](https://community.modx.com)
 
-LogLogins is fully updated for MODX 3
+
 
 LogLogins records front-end user logins to the MODX Manager Log. It will report the time, the username, and the context(s) involved.

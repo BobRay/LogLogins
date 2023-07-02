@@ -16,14 +16,14 @@ $components = array(
     'packageName' => 'LogLogins',  /* No spaces, no dashes */
     'packageNameLower' => $packageNameLower,
     'packageDescription' => 'Log User Logins and Logouts to the Manager Actions Log',
-    'version' => '1.1.0',
+    'version' => '1.1.3',
     'release' => 'pl',
     'author' => 'Bob Ray',
     'email' => '<https://bobsguides.com>',
     'authorUrl' => 'https://bobsguides.com',
     'authorSiteName' => "Bob's Guides",
     'packageDocumentationUrl' => 'https://bobsguides.com/loglogins-tutorial.html',
-    'copyright' => '2013-2014',
+    'copyright' => '2013-2023',
 
     /* no need to edit this except to change format */
     'createdon' => strftime('%m-%d-%Y'),

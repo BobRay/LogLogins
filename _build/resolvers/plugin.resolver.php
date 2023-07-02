@@ -75,31 +75,14 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         }
 
         $intersects = array (
+
                 0 =>  array (
-                  'pluginid' => 'LogLogins',
-                  'event' => 'OnManagerLogin',
-                  'priority' => '0',
-                  'propertyset' => '0',
-                ),
-                1 =>  array (
-                  'pluginid' => 'LogLogins',
-                  'event' => 'OnManagerLogout',
-                  'priority' => '0',
-                  'propertyset' => '0',
-                ),
-                2 =>  array (
                   'pluginid' => 'LogLogins',
                   'event' => 'OnWebLogin',
                   'priority' => '0',
                   'propertyset' => '0',
                 ),
-                3 =>  array (
-                  'pluginid' => 'LogLogins',
-                  'event' => 'OnWebLogout',
-                  'priority' => '0',
-                  'propertyset' => '0',
-                ),
-            );
+           );
 
         if (is_array($intersects)) {
             foreach ($intersects as $k => $fields) {
